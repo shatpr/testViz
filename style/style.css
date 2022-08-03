@@ -8,11 +8,12 @@
     font-family: sans-serif;
   }
   
-  
+  img {
+    display:block;
+  }
 
   
   section {
-    height: 100vh;
     color: black;
   }
   

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
 <html>
+    <head>
+    <meta charset="utf-8">
 	<!--Style sheet-->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Exo|Red+Hat+Display">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
@@ -79,7 +80,7 @@
 	<script src="https://d3js.org/d3.v7.js"></script>
 	<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-
+    </head>
 <body>
 <script>
 
@@ -88,11 +89,9 @@
 	const margin = {top: 80, right: 10, bottom: 150, left: 80},
 		  width = width_max - margin.left - margin.right,
 		  height = height_max - margin.top - margin.bottom;
-	
-		
+
 		const url_data = "https://raw.githubusercontent.com/shatpr/testViz/main/data/WHO-COVID-19-global-data.csv"
-       
-		
+        
 		const col_names = [
 			"Date_reported",
 			"Country_code",
@@ -107,9 +106,8 @@
             "url_data"
             ),
             ]). then((data_selected) =>{
+            console.log(data_selected)
             data_selected = data_selected.sort((a,b)=>d3.ascending(a.Date_reported, b.Date_reported))
-            console.log(url_data2)
-          
             function tabulate(data_selected, columns) {
 			var table = d3.select('body')
 						  .append('table')
