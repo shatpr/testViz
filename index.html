@@ -78,6 +78,14 @@
         margin-left: 10px;
       }
 
+      table#table.dataTable tbody tr:hover {
+			  background-color: #ffa;
+			}
+
+	  table#table.dataTable tbody tr:hover > .sorting_1 {
+			  background-color: #ffa;
+			}
+
       #scrolly {
         position: relative;
         display: -webkit-box;
@@ -166,7 +174,7 @@
 
                 data_selected = data_selected.sort((a,b)=>d3.ascending(a.Date_reported, b.Date_reported))
                 function tabulate(data_selected, columns) {
-                //console.log(data_selected)
+                console.log(data_selected)
                 var table = d3.select('#covidContainer')
                               .append('table')
                               .attr('id', 'table')
@@ -186,6 +194,7 @@
                   .data(data_selected)
                   .enter()
                   .append('tr');
+                  /*
     
                 // create a cell in each row for each column
                 var cells = rows.selectAll('td')
@@ -198,6 +207,7 @@
                   .enter()
                   .append('td')
                     .text(function (d) { return d.value; });
+                    */
     
               return table;
             }
