@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+	<!--Style sheet-->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Exo|Red+Hat+Display">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Exo|Red+Hat+Display">
+
+
+		<style>
+			body{
+				font-family: "Exo", "Red Hat Display", Segoe, "sans-serif";*/;
+				font-size: 14px;
+				text-align: justified;
+				text-align: center; 
+			}
+
+			#responsive-image {  
+				width: 100%;  
+				height: auto; 
+			} 
+
+			.container {
+				position: relative;
+				text-align: center;
+	/*			color: white;*/
+			}
+
+			.centered {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				font-size: 60px;
+				font-weight: bold;
+				color: white;
+			}
+
+			.centered_top {
+				position: absolute;
+				top: 20%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				font-size: 40px;
+				font-weight: bold;
+				color: black;
+			}
+
+			.centered_textbox {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				font-size: 20px;
+				font-weight: bold;
+				color: white;
+				background-color: rgb(0, 0, 0, 0.6);
+				padding: 10px;
+				padding-left: 20px;
+				padding-right: 20px;
+				border-radius: 25px;
+			}
+
+			ul {
+				margin-left: 10px; 
+			}
+			table#table.dataTable tbody tr:hover {
+			  background-color: #ffa;
+			}
+
+			table#table.dataTable tbody tr:hover > .sorting_1 {
+			  background-color: #ffa;
+			}
+			
+
+		</style>
+	
+	<!--Import scripts-->
+	<script src="https://d3js.org/d3.v7.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+<body>
+<script>
+	// Specify data
+	
+	
+	//		-----Definitions-----
+
+	const width_max = 800;
+	const height_max = 400;
+	const margin = {top: 80, right: 10, bottom: 150, left: 80},
+		  width = width_max - margin.left - margin.right,
+		  height = height_max - margin.top - margin.bottom;
+	
+		
+		//const url_data2 = "WHO-COVID-19-global-data.csv"
+		//console.log(url_data2)
+
+		const col_names = [
+			"Date_reported",
+			"Country_code",
+			"Country,WHO_region",
+			"New_cases",
+			"Cumulative_cases", 
+			"New_deaths",
+			"Cumulative_deaths",
+			]
+		
+		d3.csv("COASTALCLEANUPSG/data/WHO-COVID-19-global-data.csv").then(data_selected => {
+			console.log(data)
+
+			data_selected = data_selected.sort((a,b)=>d3.ascending(a.Date_reported, b.Date_reported))
+		//		-----Display table-----
+		// Show table 
+		function tabulate(data_selected, columns) {
+			var table = d3.select('body')
+						  .append('table')
+						  .attr('id', 'table')
+						  .attr('data-toggle', 'table')
+			var thead = table.append('thead')
+			var	tbody = table.append('tbody');
+
+			// append the header row
+			thead.append('tr')
+			  .selectAll('th')
+			  .data(columns).enter()
+			  .append('th')
+				.text(function (column) { return column; });
+
+			// create a row for each object in the data
+			var rows = tbody.selectAll('tr')
+			  .data(data_selected)
+			  .enter()
+			  .append('tr');
+
+			// create a cell in each row for each column
+			var cells = rows.selectAll('td')
+			  .data(function (row) {
+				return columns.map(function (column) {
+				  return {column: column, value: row[column]};
+				});
+			  })
+			  .enter()
+			  .append('td')
+				.text(function (d) { return d.value; });
+			
+
+		  return table;
+		}
+
+		tabulate(data_selected, col_names);
+
+
+		})
+	</script>
+	
+</body>
+</html>

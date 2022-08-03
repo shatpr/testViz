@@ -1,1 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
+	<title>COVID-19</title>
+	
+	<link rel="stylesheet" href="style/style.css" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Exo|Red+Hat+Display">
+    <style>
+		body{
+			font-family: "Exo", "Red Hat Display", Segoe, "sans-serif";*/;
+			font-size: 14px;
+			text-align: justified;
+			text-align: center; 
+		}
+		
+		#responsive-image {  
+			width: 100%;  
+			height: 100%; 
+	
+		} 
+		
+		.container {
+			position: relative;
+			text-align: center;
+/*			color: white;*/
+		}
+		
+		.centered {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			font-size: 60px;
+			font-weight: bold;
+			color: white;
+		}
+		
+		.centered_top {
+			position: absolute;
+			top: 20%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			font-size: 40px;
+			font-weight: bold;
+			color: black;
+		}
+		
+		.centered_textbox {
+			position: absolute;
+			top: 60%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			font-size: 20px;
+			font-weight: bold;
+			color: white;
+			background-color: rgba(255, 255, 255, 0.6);
+			padding: 10px;
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+
+		ul {
+  			margin-left: 10px; 
+		}
+
+	</style>
+	
+</head>
+<body>
+	<section>
+		
+		<div class="container">
+			<img src="image/main_covid.jpg" id="responsive-image">
+
+		</div>
+	</section>
+	<section>
+		<div class="container">
+			<img src="image/covid_bg.jpg" id="responsive-image">
+			<div class="centered_top" style="top:25%">
+				<p style="font-size:30px; color:rgb(255, 255, 255)">How <span style="color: rgb(245, 59, 59)">sereve</span> COVID-19 is for the past few years? </p>
+			</div>
+		
+				<div class="centered_textbox">
+					<p style="font-size:50px; color:rgb(146, 0, 0)">579M</p> confirmed cases and <p style="font-size:50px; color:rgb(146, 0, 0)">6M</p> deaths 
+					<br>from the coronavirus COVID-19 outbreak as of August 03, 2022
+				<br><a href="https://www.worldometers.info/coronavirus/" style="color:rgb(0, 0, 0);">Worldometer's COVID-19 data</a>
+			</div>
+		</div>
+	</section>
+    <!-- -----Libraries------ -->
+	<link rel="stylesheet" href="style/style1.css" />
+	
+	<!--add Leaflet CSS-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+    integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+    crossorigin=""/>
+	
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js" integrity="sha256-2p2tRZlPowp3P/04Pw2rqVCSbhyV/IB7ZEVUglrDS/c=" crossorigin="anonymous"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/animation.gsap.js" integrity="sha256-peenofh8a9TIqKdPKIeQE7mJvuwh+J0To7nslvpj1jI=" crossorigin="anonymous"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.js" integrity="sha256-31FC/OT6XpfjAhj9FuXjw5/wPXXawCAjJQ29E23/XPk="	crossorigin="anonymous"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"	integrity="sha256-lPE3wjN2a7ABWHbGz7+MKBJaykyzqCbU96BJWjio86U=" crossorigin="anonymous"></script>
+	
+	<script src="js/app.js"></script>
+	
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="description" content="Scrollama: Sticky Side Example" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<style>
+			#scrolly {
+				position: relative;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				background-color: #f3f3f3;
+				padding: 1rem;
+			}
+
+			#scrolly > * {
+				-webkit-box-flex: 1;
+				-ms-flex: 1;
+				flex: 1;
+			}
+
+			article {
+				position: relative;
+				padding: 0 1rem;
+				max-width: 20rem;
+			}
+
+			.sticky-thing {
+				position: -webkit-sticky;
+				position: sticky;
+				width: 100%;
+				margin: 0;
+/*				background-color: #8a8a8a;*/
+				z-index: 0;
+				top: 12.5vh;
+				height: 75vh;
+				
+				/* Center everything inside */
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				position: relative;
+			    overflow: hidden;
+			    text-align: center;
+
+			}
+
+			.sticky-thing p {
+				padding: 1rem;
+				font-size: 8rem;
+				font-weight: 90;
+				color: #fff;
+			}
+
+			.step {
+				margin: 0 auto 2rem auto;
+				background-color: #3b3b3b;
+				color: #fff;
+
+			}
+
+			.step:last-child {
+				margin-bottom: 0;
+			}
+
+			.step.is-active {
+				background-color: goldenrod;
+				color: #3b3b3b;
+			}
+
+			.step p {
+				text-align: center;
+				padding: 1rem;
+				font-size: 1.5rem;
+			}
+			
+			video {
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			
+			</style>
+	</head>
+
+</body>
+
+<main>
+    <section id="scrolly">
+
+
+    </section>
+
+</main>
