@@ -16,6 +16,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Exo|Red+Hat+Display"
     />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <style>
       body {
@@ -128,6 +129,7 @@
     </section>
 
     <div id="covidContainer"></div>
+    <div id="worldmap"> </div>
     <script src="https://d3js.org/d3.v7.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"
@@ -155,19 +157,41 @@
         width = width_max - margin.left - margin.right,
         height = height_max - margin.top - margin.bottom;
 
-      const url_data =
-        "https://raw.githubusercontent.com/shatpr/testViz/main/data/WHO-COVID-19-global-data.csv";
+      const url_data ="https://raw.githubusercontent.com/shatpr/testViz/main/data/WHO-COVID-19-global-data.csv";
+      const country_data = "https://raw.githubusercontent.com/shatpr/testViz/main/data/countryList.csv"
 
-      Promise.all([d3.csv(url_data)]).then((data_selected) => {
+      const local_country = "http://127.0.0.1:5500/data/countryList.csv";
+
+      // Remember to change this local_country
+      Promise.all([d3.csv(url_data),d3.csv(local_country)]).then((data_selected) => {
+
         let column = data_selected[0].columns;
-        //console.log(data_selected)
-        delete data_selected[0].columns;
+        let data = data_selected[0]
+      
+       // For each row in url_data
+        data.forEach(data => {
 
-        data_selected = data_selected.sort((a, b) =>
+            // Loop the csv to find the country code
+            data_selected[1].map(row =>{
+
+                // immediate exit if url data is not equal to row data country code
+                if(row["country_code"] !== data["Country_code"])
+                {
+                    return;
+                }
+                // Add new key and value => yes
+                data["latitude"] = row["latitude"];
+                data["longitude"] = row["longitude"];
+            })
+        })
+
+        delete data.columns;
+
+        data_selected = data.sort((a, b) =>
           d3.ascending(a.Date_reported, b.Date_reported)
         );
-        function tabulate(data_selected, columns) {
-          //console.log(data_selected)
+        function tabulate(data, columns) {
+
           var table = d3
             .select("#covidContainer")
             .append("table")
@@ -190,7 +214,7 @@
           // create a row for each object isn the data
           var rows = tbody
             .selectAll("tr")
-            .data(data_selected)
+            .data(data)
             .enter()
             .append("tr");
 
@@ -210,12 +234,64 @@
 
           return table;
         }
-        tabulate(data_selected[0], column);
+        tabulate(data, column);
+   
+
         $("#tableBorder").DataTable();
+        const domain = [0, 10000, 20000, 30000,40000,50000,60000,70000,80000,90000,100000];
+    const colorScale = d3.scaleThreshold()
+	.domain(domain)
+    
+	.range(["#f7f4f9","#eae3f0","#dcc9e2","#d0aad2","#d08ac2","#dd63ae","#e33890","#d71c6c","#b70b4f","#8f023a","#67001f"]);
+
+         data = data.filter(function (d) {
+  return d.Date_reported == "9/2/2022";
+});
+        console.log(data);
+        var map = d3.select("#worldmap")
+        .attr('height', height)
+        .attr("width",width);
+
+        var projection = d3.geoMercator()
+    .center([103.851959, 1.290270])
+    .fitExtent([[20, 20], [980, 580]],data);
+
+        var geopath = d3.geoPath().projection(projection);
+        
+        map.append("g")
+            .attr("id", "districts")
+            .selectAll("path")
+            .data(data)
+            .enter()
+            .append("path")
+            .attr("d", geopath)
+            .attr("fill", function(d) {
+   return colorScale(d.Cumulative_cases);
+  })
+            .attr("stroke", "grey")
+            .attr("stroke-width", 0.5)
+            .attr("margin-top","40px")
+        //    .on("click", click)
+            .on("mouseover", (event, d) => {
+               // console.log(d);
+               /*
+            d3.select(event.currentTarget)
+            .attr("stroke", "#4690B5")
+            .attr("stroke-width", 2);
+            d3.select(".tooltip").html("Subs district: " +  d.properties.Name +"<br/> Population: " + d.Population)
+            .style("visibility", "visible")
+            .style("left", (event.pageX) + "px")
+            .style("top", (event.pageY) + "px");*/
+        })
+        .on("mouseout", (event, d) => {
+            d3.select(event.currentTarget).attr("stroke", "none");  
+            d3.select(".tooltip")
+            .style("visibility", "hidden");
+            
+        });
+
       });
     </script>
-
-
   
   </body>
 </html>
